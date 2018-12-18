@@ -1,4 +1,5 @@
 # FnJS
+
 > A functional JavaScript library prototype
 
 This is a simple prototype of a syntax that could be used to simulate a
@@ -10,31 +11,31 @@ The basic usage is to include the library `fnjs.js` in your project and use the
 library to "compile" your fnjs syntax:
 
 ```javascript
-require("./fnjs.js")(
-    
-    ["log", "Hello world!"]  // Prints "Hello world!"
-
+// Run directly
+require('./fnjs.js')(
+  [console.log, 'Hello world!'] // Prints "Hello world!"
 )
+
+// Or have it inside a variable
+const fnjs = require('./fnjs.js')
+fnjs([console.log, 'hello world'])
 ```
 
-This includes the script "compiler" library and runs the `log` function to the
-input string.
+This includes the script "compiler" library and runs the `console.log` against
+the input string.
 
-### Basic calculations
+### Math library
 
-You can do basic calculations, such as:
+You can do basic calculations by including the Math library, such as:
 
 ```javascript
-require("./fnjs.js")(
-    
-    ["log", 
-        ["*", 2, 2, 2]],    // Prints "8"
-    
-    ["log",
-        ["+", 10, 10,
-            ["-", 10, 5]]]  // Prints "25"
+fnjs([
+  [fnjs.stdlib.imports.Math],
 
-)
+  [console.log, ['*', 2, 2, 2]], // Prints "8"
+
+  [console.log, ['+', 10, 10, ['-', 10, 5]]] // Prints "25"
+])
 ```
 
 As with Clojure, the numbers are calculated from left-to-right.
@@ -44,25 +45,21 @@ As with Clojure, the numbers are calculated from left-to-right.
 You can define your own functions as such:
 
 ```javascript
-require("./fnjs.js")(
-    
-    ["defn", 
-        "square", (a) => a * a],
-    
-    ["log",
-        ["square", 5]]    // Prints "25"
+require('./fnjs.js')([
+  ['defn', 'square', a => a * a],
 
-)
+  [console.log, ['square', 5]] // Prints "25"
+])
 ```
 
 ## Features
 
 This project:
-* Achieves Clojure-like syntax for your JavaScript
-* Does not actually isolate the scopes (yet)
-* Is just a quick draft of an idea
-  * Please do not use in production (yet)
 
+- Achieves Clojure-like syntax for your JavaScript
+- Does not actually isolate the scopes (yet)
+- Is just a quick draft of an idea
+  - Please do not use in production (yet)
 
 ## Contributing
 

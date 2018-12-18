@@ -1,33 +1,41 @@
-function FnJS() {
-    var fns = {
-        "defn": function(args) {
-            fns[args[0]] = args[1];
-        },
-        "log": function(args) {
-            console.log.apply(this, args);
-        },
-        "+": function(args) { return args.reduce(function(a,b) { return a + b; }) },
-        "-": function(args) { return args.reduce(function(a,b) { return a - b; }) },
-        "*": function(args) { return args.reduce(function(a,b) { return a * b; }) },
-        "/": function(args) { return args.reduce(function(a,b) { return a / b; }) },
-        "if": function(args) { return args[0] ? args[1] : args[2]; }
+module.exports = program => {
+  const environment = createEnvironment()
+
+  function applyFn(...input) {
+    const [func, ...args] = input
+
+    if (Array.isArray(func)) {
+      return input.map(args => applyFn(...args)).pop()
     }
 
-    function val(val) {
-        if (Array.isArray(val)) {
-            return run(val);
-        } else {
-            return val;
-        }
+    if (typeof func === 'function') {
+      return func.apply(null, args.map(val))
     }
 
-    function run(args) {
-        return fns[args.shift()].call(this, args.map(val));
+    if (environment.get(func)) {
+      return applyFn(environment.get(func), ...args)
     }
 
-    return function() {
-        return Array.prototype.slice.call(arguments).map(run);
+    throw new Error(`No function ${func} defined!`)
+  }
+
+  function createEnvironment() {
+    const env = new Map()
+    env.set('defn', (key, val) => {
+      env.set.bind(env)(key, val)
+    })
+    env.set('apply', (fn, args) => applyFn(fn, ...args))
+    return env
+  }
+
+  function val(expression) {
+    if (Array.isArray(expression)) {
+      return applyFn(...expression)
     }
+    return expression
+  }
+
+  return applyFn(...program)
 }
 
-module.exports = FnJS();
+module.exports.stdlib = require('./stdlib')

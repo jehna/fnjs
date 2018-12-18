@@ -1,0 +1,13 @@
+{
+  "name": "fnjs",
+  "version": "0.1.0",
+  "main": "fnjs.js",
+  "author": "Jesse Luoto",
+  "scripts": {
+    "test": "jest"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^23.6.0"
+  }
+}
