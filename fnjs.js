@@ -21,8 +21,8 @@ module.exports = program => {
 
   function createEnvironment() {
     const env = new Map()
-    env.set('defn', (key, val) => {
-      env.set.bind(env)(key, val)
+    env.set('defn', (key, fn) => {
+      env.set.bind(env)(key, (...args) => val(fn(...args)))
     })
     env.set('apply', (fn, args) => applyFn(fn, ...args))
     return env

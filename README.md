@@ -30,7 +30,7 @@ You can do basic calculations by including the Math library, such as:
 
 ```javascript
 fnjs([
-  [fnjs.stdlib.imports.Math],
+  [fnjs.stdlib.imports.Math], // Imports math functions
 
   [console.log, ['*', 2, 2, 2]], // Prints "8"
 
@@ -45,8 +45,20 @@ As with Clojure, the numbers are calculated from left-to-right.
 You can define your own functions as such:
 
 ```javascript
-require('./fnjs.js')([
+fnjs([
   ['defn', 'square', a => a * a],
+
+  [console.log, ['square', 5]] // Prints "25"
+])
+```
+
+You can also use the `defn` to run more fnjs code
+
+```javascript
+fnjs([
+  [fnjs.stdlib.imports.Math], // Imports math functions
+
+  ['defn', 'square', a => ['*', a, a],
 
   [console.log, ['square', 5]] // Prints "25"
 ])

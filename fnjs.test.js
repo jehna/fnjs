@@ -31,10 +31,19 @@ describe('fnjs runner', () => {
 
     it('should allow multiple arguments', () => {
       const program = [
-        ['defn', 'round', (a, b, c, d) => a - b * c + d],
-        ['round', 1, 2, 3, 4]
+        ['defn', 'doMath', (a, b, c, d) => a - b * c + d],
+        ['doMath', 1, 2, 3, 4]
       ]
       expect(fnjs(program)).toEqual(-1)
+    })
+
+    it('should compile additional fnjs code', () => {
+      const program = [
+        ['defn', 'add10', num => [fnjs.stdlib.plus, 10, num]],
+        ['add10', 5]
+      ]
+
+      expect(fnjs(program)).toEqual(15)
     })
   })
 })
