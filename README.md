@@ -58,7 +58,7 @@ You can also use the `defn` to run more fnjs code
 fnjs([
   [fnjs.stdlib.imports.Math], // Imports math functions
 
-  ['defn', 'square', a => ['*', a, a],
+  ['defn', 'square', a => ['*', a, a]],
 
   [console.log, ['square', 5]] // Prints "25"
 ])
